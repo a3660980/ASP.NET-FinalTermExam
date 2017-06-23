@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>客戶查詢</h2>
+@using (Html.BeginForm("Index", "Order", FormMethod.Post, new { id = "Form1" }))
+{
+    <div id="SearchConditionSection">
+        <table class="table table-bordered">
+            <tr>
+                <td>客戶編號</td>
+                <td>
+                    @Html.TextBox("CustomerID")
+                </td>
+            </tr>
+            <tr>
+                <td>客戶名稱</td>
+                <td>
+                    @Html.TextBox("CustName")
+                </td>
+            </tr>
+            <tr>
+                <td>聯絡人姓名</td>
+                <td>
+                    @Html.TextBox("ContactName")
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>聯絡人職稱</td>
+                <td>
+                   @Html.DropDownList("ContactTitle", (List<SelectListItem>)ViewBag.EmpCodeData, "請選擇職稱")
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <input class="btn btn-default" id="search" type="button" value="查詢" />
+                    <input class="btn btn-default" type="button" value="清除" id="clear" />
+                    <input class="btn btn-default" type="button" value="新增客戶" onclick="location.href='/Customer/InsertCustomer'">
+
+                </td>
+
+            </tr>
+        </table>
+    </div>
+    if (TempData["ok"] != null)
+    {
+        <div id="MssageBox" class="alert alert-success">
+            <i class="fa fa-info-circle pull-left fa-2x"></i>@TempData["ok"]
+        </div>
+    }
+    <div id="SearchResultSection">
+        <div id="grid"></div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(function () {
+        var columns = [
+            {
+                field: "CustomerID",
+                title: "編號"
+            },
+            {
+                field: "CompanyName",
+                title: "名稱"
+            },
+            {
+                field: "ContactName",
+                title: "聯絡人姓名",
+            },
+            {
+                field: "ContactTitle",
+                title: "連絡人職稱",
+            },
+            {
+                command:
+                [{
+                    text: "Edit",
+                    click: updateOrder
+                },
+                {
+                    text: "Delete",
+                    click: deleteOrder
+                }],
+                title: " ",
+                width: "180px"
+            },
+            {
+                field: "CustomerID",
+                title: "編號",
+                hidden: true
+            }];
+
+        //初始化grid
+        var g = $("#grid").kendoGrid({
+            dataSource: {
+                pageSize: 20
+            },
+            height: 550,
+            groupable: true,
+            sortable: true,
+            schema: {
+                model: {
+                    fields: {
+                        CustomerID: { type: "int" },
+                        CompanyName: { type: "string" },
+                        ContactName: { type: "string" },
+                        ContactTitle: { type: "string" },
+                    }
+                }
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            columns: columns
+        }).data("kendoGrid");
+
+        $(".btn-default").kendoButton();
+        $(".btnDelete").kendoButton();
+        $("#ContactTitle").kendoDropDownList();
+        $('#CustName').kendoMaskedTextBox();
+       ç
+        $('#CustomerID').kendoMaskedTextBox();
+        $("#clear").click(function () {
+            $('#CustomerID').val('');
+            $('#CustName').val('');
+            $('#ContactName').val('');
+            $('#ContactTitle').val('');
+            g.dataSource.data([]);
+        });
+
+        $("#search").click(function () {
+            var sdata = {
+                "arg.CustomerID": $('#CustomerID').val(),
+                "arg.CompanyName": $('#CustName').val(),
+                "arg.ContactName": $('#ContactName').val(),
+                "arg.ContactTitle": $('#ContactTitle').val(),
+            }
+            console.log(sdata)
+
+            $.ajax({
+                type: "POST",
+                url: "/Customer/Customer",
+                data: sdata,
+                dataType: "json",
+                success: function (response) {
+                    g.dataSource.data(response);
+                    g.dataSource.sync();
+                }
+            });
+
+        })
+
+        function deleteOrder(e) {
+            var r = confirm("你確定要刪除嗎?");
+            if (r == true) {
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                console.log(dataItem)
+                $.ajax({
+                    type: "POST",
+                    url: "/Customer/DeleteCustomer",
+                    data: "CustomerID=" + dataItem.CustomerID,
+                    dataType: "json",
+                    success: function (response) {
+                        var customer = g.dataSource;
+                        customer.remove(dataItem);
+                        customer.sync();
+                    }
+                });
+            } else {
+                return false;
+            }
+        };
+
+        function updateOrder(e) {
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            window.location.href = '/Customer/UpdateCustomer/' + dataItem.CustomerID;
+        }
+    });
+</script>
+

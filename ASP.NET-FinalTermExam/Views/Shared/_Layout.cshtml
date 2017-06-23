@@ -4,30 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
-    @Styles.Render("~/Content/css")
+    <title>@ViewBag.Title - ＡＳＰ期末考試</title>
+    <link href="~/Content/kendo.material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo.black.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo.dataviz.blueopal.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo.common-nova.min.css" />
+    <link rel="stylesheet" href="~/Content/kendo.nova.min.css" />
+    <link rel="stylesheet" href="~/Content/kendo.nova.mobile.min.css" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="@Url.Content("~/Scripts/kendo.all.min.js")"></script>
+    <script src="~/Scripts/jszip.min.js"></script>
+    <script src="~/Scripts/kendo.web.min.js"></script>
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("應用程式名稱", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                    <li>@Html.ActionLink("關於", "About", "Home")</li>
-                    <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -36,8 +28,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

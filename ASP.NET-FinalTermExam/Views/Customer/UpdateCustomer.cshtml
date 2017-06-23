@@ -1,0 +1,114 @@
+﻿@model ASP.NET_FinalTermExam.Models.Customer
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateCustomer</title>
+</head>
+<body>
+    @using (Html.BeginForm("UpdateCustomer", "Customer", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.CompanyName)
+                </td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.CompanyName)
+                    @Html.ValidationMessageFor(model => model.CompanyName)
+                </td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(model => model.ContactName)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.ContactName)
+                    @Html.ValidationMessageFor(model => model.ContactName)
+                </td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(model => model.ContactTitle)</td>
+                <td>
+                    @Html.DropDownListFor(model => model.ContactTitle, (List<SelectListItem>)ViewBag.Emp, "請選擇職稱")
+                    @Html.ValidationMessageFor(model => model.ContactTitle)
+                </td>
+                <td>@Html.LabelFor(model => model.CreationDate)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.CreationDate, new { @type = "date" })
+                    @Html.ValidationMessageFor(model => model.CreationDate)
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>@Html.LabelFor(model => model.Country)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.Country)
+                    @Html.ValidationMessageFor(model => model.Country)
+                </td>
+                <td>@Html.LabelFor(model => model.City)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.City)
+                    @Html.ValidationMessageFor(model => model.City)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>@Html.LabelFor(model => model.Region)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.Region)
+                    @Html.ValidationMessageFor(model => model.Region)
+                </td>
+                <td>@Html.LabelFor(model => model.PostalCode)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.PostalCode)
+                    @Html.ValidationMessageFor(model => model.PostalCode)
+                </td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(model => model.Address)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </td>
+                <td>@Html.LabelFor(model => model.Phone)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.Phone)
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(model => model.Fax)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.Fax)
+                    @Html.ValidationMessageFor(model => model.Fax)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.HiddenFor(model => model.CustomerID)
+                   
+                    <input type="submit" value="存檔" />
+                    @Html.ActionLink("回前一頁", "Index")
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    }
+</body>
+</html>
